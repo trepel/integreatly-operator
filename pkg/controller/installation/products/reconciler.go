@@ -14,7 +14,6 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/integr8ly/integreatly-operator/pkg/controller/installation/products/amqonline"
-	"github.com/integr8ly/integreatly-operator/pkg/resources"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -25,7 +24,6 @@ type Interface interface {
 
 func NewReconciler(ctx context.Context, product v1alpha1.ProductName, client client.Client, rc *rest.Config, coreClient *kubernetes.Clientset, configManager config.ConfigReadWriter, instance *v1alpha1.Installation) (reconciler Interface, err error) {
 	mpm := marketplace.NewManager(client, rc, instance)
-	nsr := resources.NewNamespaceReconciler(client)
 	switch product {
 	case v1alpha1.ProductAMQStreams:
 		reconciler, err = amqstreams.NewReconciler(coreClient, configManager, instance, mpm)
@@ -36,7 +34,7 @@ func NewReconciler(ctx context.Context, product v1alpha1.ProductName, client cli
 	case v1alpha1.ProductFuse:
 		reconciler, err = fuse.NewReconciler(coreClient, configManager, instance, mpm)
 	case v1alpha1.ProductAMQOnline:
-		reconciler, err = amqonline.NewReconciler(configManager, instance, mpm, nsr)
+		reconciler, err = amqonline.NewReconciler(configManager, instance, mpm)
 	default:
 		err = errors.New("unknown products: " + string(product))
 		reconciler = &NoOp{}

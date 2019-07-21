@@ -13,12 +13,9 @@ import (
 	kafkav1 "github.com/integr8ly/integreatly-operator/pkg/apis/kafka.strimzi.io/v1alpha1"
 	"github.com/integr8ly/integreatly-operator/pkg/controller/installation/marketplace"
 	"github.com/integr8ly/integreatly-operator/pkg/controller/installation/products/config"
-	"github.com/integr8ly/integreatly-operator/pkg/resources"
 	operatorsv1alpha1 "github.com/operator-framework/operator-lifecycle-manager/pkg/api/apis/operators/v1alpha1"
 	marketplacev1 "github.com/operator-framework/operator-marketplace/pkg/apis/operators/v1"
-	"k8s.io/api/core/v1"
 	corev1 "k8s.io/api/core/v1"
-	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -60,72 +57,6 @@ func basicConfigMock() *config.ConfigReadWriterMock {
 	}
 }
 
-func TestReconcile_reconcileNamespace(t *testing.T) {
-	defaultInstallation := &v1alpha1.Installation{ObjectMeta: v12.ObjectMeta{Name: "install"}, TypeMeta: v12.TypeMeta{APIVersion: v1alpha1.SchemeGroupVersion.String()}}
-	scenarios := []struct {
-		Name           string
-		FakeConfig     *config.ConfigReadWriterMock
-		Installation   *v1alpha1.Installation
-		ExpectErr      bool
-		ExpectedStatus v1alpha1.StatusPhase
-		FakeMPM        *marketplace.MarketplaceInterfaceMock
-		FakeNSR        *resources.NamespaceReconcilerMock
-	}{
-		{
-			Name:           "Test returns awaiting status when namespace is terminating",
-			FakeConfig:     basicConfigMock(),
-			Installation:   defaultInstallation,
-			ExpectedStatus: v1alpha1.PhaseAwaitingNS,
-			FakeNSR: &resources.NamespaceReconcilerMock{
-				ReconcileFunc: func(ctx context.Context, ns *v1.Namespace, owner *v1alpha1.Installation) (*v1.Namespace, error) {
-					return &v1.Namespace{
-						ObjectMeta: v12.ObjectMeta{
-							Name: "amq-online",
-						},
-						Status: v1.NamespaceStatus{
-							Phase: v1.NamespaceTerminating,
-						},
-					}, nil
-				},
-			},
-		},
-		{
-			Name:           "Test returns none phase when namespace is active",
-			FakeConfig:     basicConfigMock(),
-			Installation:   defaultInstallation,
-			ExpectedStatus: v1alpha1.PhaseNone,
-			FakeNSR: &resources.NamespaceReconcilerMock{
-				ReconcileFunc: func(ctx context.Context, ns *v1.Namespace, owner *v1alpha1.Installation) (*v1.Namespace, error) {
-					return &v1.Namespace{
-						ObjectMeta: v12.ObjectMeta{
-							Name: "amq-online",
-						},
-						Status: v1.NamespaceStatus{
-							Phase: v1.NamespaceActive,
-						},
-					}, nil
-				},
-			},
-		},
-	}
-
-	for _, scenario := range scenarios {
-		t.Run(scenario.Name, func(t *testing.T) {
-			r, err := NewReconciler(scenario.FakeConfig, scenario.Installation, scenario.FakeMPM, scenario.FakeNSR)
-			if err != nil {
-				t.Fatalf("could not create reconciler %v", err)
-			}
-			phase, err := r.reconcileNamespace(context.TODO(), scenario.Installation)
-			if err != nil {
-				t.Fatalf("could not reconcile namespace %v", err)
-			}
-			if phase != scenario.ExpectedStatus {
-				t.Fatalf("expected status %s but got %s", scenario.ExpectedStatus, phase)
-			}
-		})
-	}
-}
-
 func TestReconcile_reconcileAuthServices(t *testing.T) {
 	scenarios := []struct {
 		Name           string
@@ -135,7 +66,6 @@ func TestReconcile_reconcileAuthServices(t *testing.T) {
 		ExpectedStatus v1alpha1.StatusPhase
 		AuthServices   []*enmassev1.AuthenticationService
 		FakeMPM        *marketplace.MarketplaceInterfaceMock
-		FakeNSR        *resources.NamespaceReconcilerMock
 	}{
 		{
 			Name:           "Test returns none phase if successfully creating new auth services",
@@ -155,7 +85,7 @@ func TestReconcile_reconcileAuthServices(t *testing.T) {
 
 	for _, s := range scenarios {
 		t.Run(s.Name, func(t *testing.T) {
-			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM, s.FakeNSR)
+			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM)
 			if err != nil {
 				t.Fatalf("could not create reconciler %v", err)
 			}
@@ -180,7 +110,6 @@ func TestReconcile_reconcileBrokerConfigs(t *testing.T) {
 		BrokeredInfraConfigs []*v1beta1.BrokeredInfraConfig
 		StandardInfraConfigs []*v1beta1.StandardInfraConfig
 		FakeMPM              *marketplace.MarketplaceInterfaceMock
-		FakeNSR              *resources.NamespaceReconcilerMock
 	}{
 		{
 			Name:                 "Test returns none phase if successfully creating new address space plans",
@@ -202,7 +131,7 @@ func TestReconcile_reconcileBrokerConfigs(t *testing.T) {
 
 	for _, s := range scenarios {
 		t.Run(s.Name, func(t *testing.T) {
-			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM, s.FakeNSR)
+			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM)
 			if err != nil {
 				t.Fatalf("could not create reconciler %v", err)
 			}
@@ -226,7 +155,6 @@ func TestReconcile_reconcileAddressPlans(t *testing.T) {
 		ExpectedStatus v1alpha1.StatusPhase
 		AddressPlans   []*v1beta2.AddressPlan
 		FakeMPM        *marketplace.MarketplaceInterfaceMock
-		FakeNSR        *resources.NamespaceReconcilerMock
 	}{
 		{
 			Name:           "Test returns none phase if successfully creating new address space plans",
@@ -246,7 +174,7 @@ func TestReconcile_reconcileAddressPlans(t *testing.T) {
 
 	for _, s := range scenarios {
 		t.Run(s.Name, func(t *testing.T) {
-			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM, s.FakeNSR)
+			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM)
 			if err != nil {
 				t.Fatalf("could not create reconciler %v", err)
 			}
@@ -270,7 +198,6 @@ func TestReconcile_reconcileAddressSpacePlans(t *testing.T) {
 		ExpectedStatus    v1alpha1.StatusPhase
 		AddressSpacePlans []*v1beta2.AddressSpacePlan
 		FakeMPM           *marketplace.MarketplaceInterfaceMock
-		FakeNSR           *resources.NamespaceReconcilerMock
 	}{
 		{
 			Name:              "Test returns none phase if successfully creating new address space plans",
@@ -290,7 +217,7 @@ func TestReconcile_reconcileAddressSpacePlans(t *testing.T) {
 
 	for _, s := range scenarios {
 		t.Run(s.Name, func(t *testing.T) {
-			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM, s.FakeNSR)
+			r, err := NewReconciler(s.FakeConfig, s.Installation, s.FakeMPM)
 			if err != nil {
 				t.Fatalf("could not create reconciler %v", err)
 			}

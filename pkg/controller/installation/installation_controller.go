@@ -230,6 +230,7 @@ func (r *ReconcileInstallation) processStage(instance *v1alpha1.Installation, pr
 			return v1alpha1.PhaseFailed, pkgerr.Wrap(err, "could not create server client")
 		}
 		newPhase, err := reconciler.Reconcile(r.context, instance, serverClient)
+		logrus.Infof("finished reconciling product: %s phase is %s", product, newPhase)
 		instance.Status.ProductStatus[product] = string(newPhase)
 		if err != nil {
 			return v1alpha1.PhaseFailed, pkgerr.Wrapf(err, "failed installation of %s", product)
