@@ -97,17 +97,7 @@ oc create -f https://raw.githubusercontent.com/integr8ly/manifests/master/operat
 Within a few minutes, the Integreatly operator should be visible in the OperatorHub (`Catalog > OperatorHub`). To create a new subscription, click on the Install button, choose an installation mode and keep the approval strategy on automatic.
 
 
-Once the subscription shows a status of `installed`, a new Integreatly Installation Custom Resource (CR) can be created which will begin to install the supported services. In `Catalog > Developer Catalog`, choose the Integreatly Installation and click Install. An example installation CR can be found below:
-
-```yml
-apiVersion: integreatly.org/v1alpha1
-kind: Installation
-metadata:
-  name: example-installation
-spec:
-  type: workshop
-namespacePrefix: integreatly-
-```
+Once the subscription shows a status of `installed`, a new Integreatly Installation Custom Resource (CR) can be created which will begin to install the supported services. In `Catalog > Developer Catalog`, choose the Integreatly Installation and click Install. An [example installation CR](./deploy/crds/examples/installation.cr.yaml) can be used to trigger an installation.
 
 ## Tests
 
