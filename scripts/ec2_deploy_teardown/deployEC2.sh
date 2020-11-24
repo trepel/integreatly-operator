@@ -50,7 +50,7 @@ for (( i=0; i<5; i++ )) do
 done
 
 echo "Starting EC2 micro-t2 instance"
-EC2=`aws ec2 run-instances --image-id $AMI --count 1 --instance-type t2.micro --key-name pipelineKey --security-group-ids $SECGRP --subnet-id $SUBNET --region ${CLUSTER_REGION} --query 'Instances[0].InstanceId' --output text`
+EC2=`aws ec2 run-instances --image-id $AMI --count 1 --instance-type t3.2xlarge --key-name pipelineKey --security-group-ids $SECGRP --subnet-id $SUBNET --region ${CLUSTER_REGION} --query 'Instances[0].InstanceId' --output text`
 for (( i=0; i<60; i++ )) do
     commandResult=$(aws ec2 describe-instance-status --region $CLUSTER_REGION --instance-ids $EC2 --query 'InstanceStatuses[0].InstanceState.Name' --output text)
     if [[ $commandResult == "running" ]]; then
