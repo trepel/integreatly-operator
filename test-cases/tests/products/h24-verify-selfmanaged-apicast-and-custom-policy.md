@@ -119,7 +119,7 @@ _8. Create a new app_
 
 - `oc new-app -f openshift.yml --param AMP_RELEASE=2.8`
 - param value does not matter at this point but needs to be used since it is required parameter
-- you can change make the parameter optional in `openshift.yaml` so you don't need to specify it at all
+- you can make the parameter optional in `openshift.yaml` so you don't need to specify it at all
 
 _9. Start custom policy builds_
 
