@@ -17,11 +17,11 @@ var quotaConfig = `
 			"resources": {
 				"requests": {
 					"cpu": 0.5,
-					"memory": "470Mi"
+					"memory": "1000Mi"
 				},
 				"limits": {
-					"cpu": 1,
-					"memory": "520Mi"
+					"cpu": 2.5,
+					"memory": "4000Mi"
 				}
 			}
 		},
@@ -30,11 +30,11 @@ var quotaConfig = `
 			"resources": {
 				"requests": {
 					"cpu": 0.4,
-					"memory": "100Mi"
+					"memory": "200Mi"
 				},
 				"limits": {
-					"cpu": 0.6,
-					"memory": "100Mi"
+					"cpu": 1.5,
+					"memory": "400Mi"
 				}
 			}
 		},
@@ -55,12 +55,12 @@ var quotaConfig = `
 		"replicas": 3,
 		"resources": {
 			"requests": {
-				"cpu": 1,
+				"cpu": 3,
 				"memory": "2000Mi"
 			},
 			"limits": {
-				"cpu": 2,
-				"memory": "2000Mi"
+				"cpu": 6,
+				"memory": "4000Mi"
 			}
 		}
 	},
@@ -72,8 +72,8 @@ var quotaConfig = `
 					"memory": "50Mi"
 				},
 				"limits": {
-					"cpu": 0.3,
-					"memory": "100Mi"
+					"cpu": 1,
+					"memory": "200Mi"
 				}
 			}
 		}
