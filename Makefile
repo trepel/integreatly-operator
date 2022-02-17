@@ -4,7 +4,7 @@ ORG ?= integreatly
 
 REG=quay.io
 SHELL=/bin/bash
-
+ddd
 PKG=github.com/integr8ly/integreatly-operator
 TEST_DIRS?=$(shell sh -c "find $(TOP_SRC_DIRS) -name \\*_test.go -exec dirname {} \\; | sort | uniq")
 TEST_POD_NAME=integreatly-operator-test
