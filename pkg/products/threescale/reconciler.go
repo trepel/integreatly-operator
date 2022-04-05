@@ -34,7 +34,7 @@ import (
 	"github.com/integr8ly/integreatly-operator/pkg/resources/owner"
 	"github.com/integr8ly/integreatly-operator/version"
 	rbacv1 "k8s.io/api/rbac/v1"
-	k8sresource "k8s.io/apimachinery/pkg/api/resource"
+//	k8sresource "k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
 	crov1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
@@ -734,8 +734,8 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, serverClient k8scl
 				Limits:   corev1.ResourceList{corev1.ResourceCPU: k8sresource.MustParse("600m"), corev1.ResourceMemory: k8sresource.MustParse("500Mi")},
 			}
 			apim.Spec.Backend.ListenerSpec.Resources = &backendListenerResources
-		}
 */
+		}
 
 		if integreatlyv1alpha1.IsRHOAM(integreatlyv1alpha1.InstallationType(r.installation.Spec.Type)) {
 			err = productConfig.Configure(apim)

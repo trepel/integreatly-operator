@@ -179,7 +179,7 @@ code/fix:
 	@gofmt -w `find . -type f -name '*.go' -not -path "./vendor/*"`
 
 .PHONY: image/build
-image/build: code/gen
+image/build:
 	echo "build image $(OPERATOR_IMAGE)"
 	docker build -t ${OPERATOR_IMAGE} .
 

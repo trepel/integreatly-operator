@@ -13,7 +13,7 @@ import (
 	appsv1 "github.com/openshift/api/apps/v1"
 	appsv12 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
+//	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -174,17 +174,17 @@ func (p QuotaProductConfig) Configure(obj metav1.Object) error {
 	case *appsv1.DeploymentConfig:
 		checkDeploymentConfigReplicas(t)
 		p.mutateReplicas(&t.Spec.Replicas, name)
-		p.mutatePodTemplate(t.Spec.Template, name)
+//		p.mutatePodTemplate(t.Spec.Template, name)
 		break
 	case *appsv12.Deployment:
 		checkDeploymentReplicas(t)
 		p.mutateReplicas(t.Spec.Replicas, name)
-		p.mutatePodTemplate(&t.Spec.Template, name)
+//		p.mutatePodTemplate(&t.Spec.Template, name)
 		break
 	case *appsv12.StatefulSet:
 		checkStatefulSetReplicas(t)
 		p.mutateReplicas(t.Spec.Replicas, name)
-		p.mutatePodTemplate(&t.Spec.Template, name)
+//		p.mutatePodTemplate(&t.Spec.Template, name)
 		break
 	case *keycloak.Keycloak:
 		configReplicas := p.resourceConfigs[name].Replicas
@@ -248,13 +248,13 @@ func (p QuotaProductConfig) mutateAPIManagerReplicas(replicas *int64, name strin
 		*replicas = value
 	}
 }
-
+/*
 func (p QuotaProductConfig) mutatePodTemplate(template *corev1.PodTemplateSpec, name string) {
 	for i, _ := range template.Spec.Containers {
-//		p.mutateResourcesRequirement(&template.Spec.Containers[i].Resources, name)
+		p.mutateResourcesRequirement(&template.Spec.Containers[i].Resources, name)
 	}
 }
-
+*/
 func (p QuotaProductConfig) mutateReplicas(replicas *int32, name string) {
 	configReplicas := p.resourceConfigs[name].Replicas
 	if p.quota.isUpdated || *replicas < configReplicas || *replicas == 0 {

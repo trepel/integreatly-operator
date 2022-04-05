@@ -7,8 +7,8 @@ import (
 
 	l "github.com/integr8ly/integreatly-operator/pkg/resources/logger"
 	"github.com/integr8ly/integreatly-operator/pkg/resources/quota"
-	corev1 "k8s.io/api/core/v1"
-	k8sresource "k8s.io/apimachinery/pkg/api/resource"
+//	corev1 "k8s.io/api/core/v1"
+//	k8sresource "k8s.io/apimachinery/pkg/api/resource"
 
 	"github.com/integr8ly/integreatly-operator/pkg/products/rhssocommon"
 
