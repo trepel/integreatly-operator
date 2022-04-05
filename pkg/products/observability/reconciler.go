@@ -486,10 +486,10 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, serverClient k8scl
 		oo.Spec.SelfContained.AlertManagerConfigSecret = config.AlertManagerConfigSecretName
 		oo.Spec.SelfContained.PrometheusVersion = r.Config.GetPrometheusVersion()
 		oo.Spec.SelfContained.AlertManagerVersion = r.Config.GetAlertManagerVersion()
-		oo.Spec.SelfContained.AlertManagerResourceRequirement = r.Config.GetAlertManagerResourceRequirements()
-		oo.Spec.SelfContained.GrafanaResourceRequirement = r.Config.GetGrafanaResourceRequirements()
-		oo.Spec.SelfContained.PrometheusResourceRequirement = r.Config.GetPrometheusResourceRequirements()
-		oo.Spec.SelfContained.PrometheusOperatorResourceRequirement = r.Config.GetPrometheusOperatorResourceRequirements()
+		//oo.Spec.SelfContained.AlertManagerResourceRequirement = r.Config.GetAlertManagerResourceRequirements()
+		//oo.Spec.SelfContained.GrafanaResourceRequirement = r.Config.GetGrafanaResourceRequirements()
+		//oo.Spec.SelfContained.PrometheusResourceRequirement = r.Config.GetPrometheusResourceRequirements()
+		//oo.Spec.SelfContained.PrometheusOperatorResourceRequirement = r.Config.GetPrometheusOperatorResourceRequirements()
 		oo.Spec.ResyncPeriod = "1h"
 
 		return nil

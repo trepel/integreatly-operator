@@ -339,10 +339,12 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, installation *inte
 		}
 
 		if installation.Spec.Type == string(integreatlyv1alpha1.InstallationTypeManaged) {
+/*
 			kc.Spec.KeycloakDeploymentSpec.Resources = corev1.ResourceRequirements{
 				Requests: corev1.ResourceList{corev1.ResourceCPU: k8sresource.MustParse("750m"), corev1.ResourceMemory: k8sresource.MustParse("1500Mi")},
 				Limits:   corev1.ResourceList{corev1.ResourceCPU: k8sresource.MustParse("1500m"), corev1.ResourceMemory: k8sresource.MustParse("1500Mi")},
 			}
+*/
 			//OSD has more resources than PROW, so adding an exception
 			numberOfReplicas := r.Config.GetReplicasConfig(r.Installation)
 			if kc.Spec.Instances < numberOfReplicas {

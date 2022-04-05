@@ -191,6 +191,7 @@ func (p QuotaProductConfig) Configure(obj metav1.Object) error {
 		if p.quota.isUpdated || t.Spec.Instances < int(configReplicas) {
 			t.Spec.Instances = int(configReplicas)
 		}
+/*
 		resources := p.resourceConfigs[KeycloakName].Resources
 		if &t.Spec.KeycloakDeploymentSpec.Resources == nil {
 			t.Spec.KeycloakDeploymentSpec.Resources = corev1.ResourceRequirements{}
@@ -198,18 +199,19 @@ func (p QuotaProductConfig) Configure(obj metav1.Object) error {
 		checkResourceBlock(&t.Spec.KeycloakDeploymentSpec.Resources)
 		p.mutateResources(t.Spec.KeycloakDeploymentSpec.Resources.Requests, resources.Requests)
 		p.mutateResources(t.Spec.KeycloakDeploymentSpec.Resources.Limits, resources.Limits)
+*/
 		break
 	case *threescalev1.APIManager:
 		checkApiManager(t)
 
 		p.mutateAPIManagerReplicas(t.Spec.Apicast.ProductionSpec.Replicas, ApicastProductionName)
-		p.mutateResourcesRequirement(t.Spec.Apicast.ProductionSpec.Resources, ApicastProductionName)
+//		p.mutateResourcesRequirement(t.Spec.Apicast.ProductionSpec.Resources, ApicastProductionName)
 
 		p.mutateAPIManagerReplicas(t.Spec.Backend.ListenerSpec.Replicas, BackendListenerName)
-		p.mutateResourcesRequirement(t.Spec.Backend.ListenerSpec.Resources, BackendListenerName)
+//		p.mutateResourcesRequirement(t.Spec.Backend.ListenerSpec.Resources, BackendListenerName)
 
 		p.mutateAPIManagerReplicas(t.Spec.Backend.WorkerSpec.Replicas, BackendWorkerName)
-		p.mutateResourcesRequirement(t.Spec.Backend.WorkerSpec.Resources, BackendWorkerName)
+//		p.mutateResourcesRequirement(t.Spec.Backend.WorkerSpec.Resources, BackendWorkerName)
 
 	default:
 		return errors.New(fmt.Sprintf("quota configuration can only be applied to Deployments, StatefulSets, Deployment Configs, ApiManager, Keycloak found %s", reflect.TypeOf(obj)))
@@ -249,7 +251,7 @@ func (p QuotaProductConfig) mutateAPIManagerReplicas(replicas *int64, name strin
 
 func (p QuotaProductConfig) mutatePodTemplate(template *corev1.PodTemplateSpec, name string) {
 	for i, _ := range template.Spec.Containers {
-		p.mutateResourcesRequirement(&template.Spec.Containers[i].Resources, name)
+//		p.mutateResourcesRequirement(&template.Spec.Containers[i].Resources, name)
 	}
 }
 
@@ -259,7 +261,7 @@ func (p QuotaProductConfig) mutateReplicas(replicas *int32, name string) {
 		*replicas = configReplicas
 	}
 }
-
+/*
 func (p QuotaProductConfig) mutateResourcesRequirement(resourceRequirements *corev1.ResourceRequirements, name string) {
 	resources := p.resourceConfigs[name].Resources
 
@@ -295,7 +297,7 @@ func checkResourceBlock(resourceRequirement *corev1.ResourceRequirements) {
 		resourceRequirement.Limits = make(map[corev1.ResourceName]resource.Quantity)
 	}
 }
-
+*/
 func checkApiManager(t *threescalev1.APIManager) {
 	if &t.Spec == nil {
 		t.Spec = threescalev1.APIManagerSpec{}
@@ -335,7 +337,7 @@ func checkApiManager(t *threescalev1.APIManager) {
 		temp := int64(0)
 		t.Spec.Backend.WorkerSpec.Replicas = &temp
 	}
-
+/*
 	if t.Spec.Apicast.ProductionSpec.Resources == nil {
 		t.Spec.Apicast.ProductionSpec.Resources = &corev1.ResourceRequirements{}
 	}
@@ -352,5 +354,6 @@ func checkApiManager(t *threescalev1.APIManager) {
 	checkResourceBlock(t.Spec.Apicast.StagingSpec.Resources)
 	checkResourceBlock(t.Spec.Backend.ListenerSpec.Resources)
 	checkResourceBlock(t.Spec.Backend.WorkerSpec.Resources)
+*/
 
 }

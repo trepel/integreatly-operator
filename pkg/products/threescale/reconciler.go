@@ -716,6 +716,7 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, serverClient k8scl
 			if *apim.Spec.Backend.WorkerSpec.Replicas < replicas["backendWorker"] {
 				*apim.Spec.Backend.WorkerSpec.Replicas = replicas["backendWorker"]
 			}
+/*
 			apicastProdResources := corev1.ResourceRequirements{
 				Requests: corev1.ResourceList{corev1.ResourceCPU: k8sresource.MustParse("300m"), corev1.ResourceMemory: k8sresource.MustParse("250Mi")},
 				Limits:   corev1.ResourceList{corev1.ResourceCPU: k8sresource.MustParse("600m"), corev1.ResourceMemory: k8sresource.MustParse("300Mi")},
@@ -734,6 +735,7 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, serverClient k8scl
 			}
 			apim.Spec.Backend.ListenerSpec.Resources = &backendListenerResources
 		}
+*/
 
 		if integreatlyv1alpha1.IsRHOAM(integreatlyv1alpha1.InstallationType(r.installation.Spec.Type)) {
 			err = productConfig.Configure(apim)
