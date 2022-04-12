@@ -12,7 +12,7 @@ var quotaConfig = `
         "param":"500",
         "rate-limiting":{
             "unit":"minute",
-            "requests_per_unit":34723,
+            "requests_per_unit":90000,
             "alert_limits":[
                 
             ]
