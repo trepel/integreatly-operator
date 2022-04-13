@@ -646,7 +646,7 @@ func (r *Reconciler) reconcileComponents(ctx context.Context, serverClient k8scl
 		apim.Spec.APIManagerCommonSpec.WildcardDomain = r.installation.Spec.RoutingSubdomain
 		apim.Spec.System.FileStorageSpec = fss
 		apim.Spec.PodDisruptionBudget = &threescalev1.PodDisruptionBudgetSpec{Enabled: true}
-		apim.Spec.Monitoring = &threescalev1.MonitoringSpec{Enabled: false}
+		apim.Spec.Monitoring = &threescalev1.MonitoringSpec{Enabled: true}
 
 		replicas := r.Config.GetReplicasConfig(r.installation)
 
