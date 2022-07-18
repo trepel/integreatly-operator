@@ -96,6 +96,7 @@ func TestInvalidUserNameAlert(t TestingTB, ctx *TestingContext) {
 
 	// List user in 3scale and ensure dedicated admin is listed
 	host := rhmi.Status.Stages[rhmiv1alpha1.ProductsStage].Products[rhmiv1alpha1.Product3Scale].Host
+    host = "https://3scale-admin.apps.mta24-651-t2829.scpf.s1.devshift.org"
 	validateUserIsListedIn3scale(t, ctx, host, customerAdminUsername)
 
 	// Delete IDP

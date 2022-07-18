@@ -32,17 +32,19 @@ func TestProductLogins(t TestingTB, ctx *TestingContext) {
 	}
 
 	// Login to Grafana
-	grafanaHost := rhmi.Status.Stages[rhmiv1alpha1.ProductsStage].Products[rhmiv1alpha1.ProductGrafana].Host
+    hostXX := rhmi.Status.Stages[rhmiv1alpha1.ProductsStage].Products[rhmiv1alpha1.ProductGrafana].Host
+    hostXX = "https://grafana-route-redhat-rhoam-customer-monitoring-operator.apps.mta24-651-t2829.scpf.s1.devshift.org"
+	grafanaHost := hostXX
 	testLoginToCustomerGrafanaForUser(t, grafanaHost, developerUser, assertGrafanaLoginUnAuthorized(t, developerUser))
 	testLoginToCustomerGrafanaForUser(t, grafanaHost, dedicatedAdminUser, assertGrafanaLoginAuthorized(t, dedicatedAdminUser))
 
 	// Login to User SSO
-	userSSOConsoleUrl := fmt.Sprintf("%s%s", rhmi.Status.Stages[rhmiv1alpha1.ProductsStage].Products[rhmiv1alpha1.ProductRHSSOUser].Host, keyCloakAuthConsolePath)
+	userSSOConsoleUrl := fmt.Sprintf("%s%s", "https://keycloak-redhat-rhoam-user-sso.apps.mta24-651-t2829.scpf.s1.devshift.org", keyCloakAuthConsolePath)
 	testLoginToUserSSOForUser(t, userSSOConsoleUrl, developerUser)
 	testLoginToUserSSOForUser(t, userSSOConsoleUrl, dedicatedAdminUser)
 
 	// Login to RHSSO
-	rhssoConsoleUrl := fmt.Sprintf("%s%s", rhmi.Status.Stages[rhmiv1alpha1.AuthenticationStage].Products[rhmiv1alpha1.ProductRHSSO].Host, keyCloakAuthConsolePath)
+	rhssoConsoleUrl := fmt.Sprintf("%s%s", "https://keycloak-edge-redhat-rhoam-rhsso.apps.mta24-651-t2829.scpf.s1.devshift.org", keyCloakAuthConsolePath)
 	testLoginToRHSSOForUser(t, rhssoConsoleUrl, developerUser)
 	testLoginToRHSSOForUser(t, rhssoConsoleUrl, dedicatedAdminUser)
 }
