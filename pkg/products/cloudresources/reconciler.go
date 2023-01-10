@@ -139,7 +139,7 @@ func (r *Reconciler) Reconcile(ctx context.Context, installation *integreatlyv1a
 			}
 
 			// the ns can be managed by hive and removing it here can cause rhoam uninstall to get stuck
-			isHiveManaged, err := addon.OperatorIsHiveManaged(ctx, client, installation)
+			isHiveManaged, err := addon.OperatorIsHiveManagedAlwaysTrue(ctx, client, installation)
 			if err != nil {
 				return integreatlyv1alpha1.PhaseFailed, err
 			}

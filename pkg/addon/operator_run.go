@@ -132,6 +132,10 @@ func OperatorIsHiveManaged(ctx context.Context, client k8sclient.Client, install
 	return false, nil
 }
 
+func OperatorIsHiveManagedAlwaysTrue(ctx context.Context, client k8sclient.Client, installation *integreatlyv1alpha1.RHMI) (bool, error) {
+	return true, nil
+}
+
 // IsClusterRunType checks if the operator is run on a cluster
 func IsClusterRunType(ctx context.Context, client k8sclient.Client, installation *integreatlyv1alpha1.RHMI) (bool, error) {
 	deploymentPrefix := "rhoam"
