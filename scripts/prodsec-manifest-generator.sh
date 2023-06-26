@@ -26,7 +26,7 @@ manifest_compare() {
 manifest_generate() {
     FILEPATH="${CURRENT_DIR}/products/products.yaml"
     PRODUCTS=$(
-    yq e -j ./products/products.yaml | jq -r '.products' | jq length)
+    yq e -o=json ./products/products.yaml | jq -r '.products' | jq length)
     # Generation manifest file
     GENERATION_FILE="${CURRENT_DIR}/prodsec-manifests/generation-file.txt"
 
