@@ -4,11 +4,13 @@ INTEGREATLY_OPERATOR_TEST_EXTERNAL_IMAGE ?= $(REG)/$(ORG)/integreatly-operator-t
 
 .PHONY: image/functional/build
 image/functional/build:
+	go mod tidy
 	go mod vendor
 	$(CONTAINER_ENGINE) build --platform=$(CONTAINER_PLATFORM) . -f Dockerfile.functional -t $(INTEGREATLY_OPERATOR_TEST_HARNESS_IMAGE)
 
 .PHONY: image/external/build
 image/external/build:
+	go mod tidy
 	go mod vendor
 	$(CONTAINER_ENGINE) build --platform=$(CONTAINER_PLATFORM) . -f Dockerfile.external -t $(INTEGREATLY_OPERATOR_TEST_EXTERNAL_IMAGE)
 
