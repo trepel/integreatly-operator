@@ -28,4 +28,4 @@ image/functional/build/push: image/functional/build image/functional/push
 
 .PHONY: test/compile/functional
 test/compile/functional:
-	cd test && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test -mod=readonly -v -c -o ../integreatly-operator-test-harness.test ./functional
+	cd test && go mod tidy && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go test -mod=readonly -v -c -o ../integreatly-operator-test-harness.test ./functional
